@@ -1,0 +1,151 @@
+{
+  "description": "Comprehensive test suite for General-Purpose Document Q&A Bot covering single-document extraction, multi-document synthesis, conversational follow-ups, and out-of-scope handling.",
+  "categories": [
+    "single_document",
+    "cross_document",
+    "follow_up",
+    "out_of_scope"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "category": "single_document",
+      "target_document": "acme_hr_policy.pdf",
+      "question": "What is the standard annual paid time off (PTO) policy for full-time employees at Acme Corp?",
+      "expected_behavior": "Extract exact PTO allowance (20 business days) and rollover limit (up to 5 days) from the PDF policy document.",
+      "expected_sources": ["acme_hr_policy.pdf"]
+    },
+    {
+      "id": "q2",
+      "category": "single_document",
+      "target_document": "acme_hr_policy.pdf",
+      "question": "What is the core working hours window according to the remote work guidelines?",
+      "expected_behavior": "State core working hours are 10:00 AM to 4:00 PM Eastern Time.",
+      "expected_sources": ["acme_hr_policy.pdf"]
+    },
+    {
+      "id": "q3",
+      "category": "single_document",
+      "target_document": "project_titan_specs.docx",
+      "question": "What database technology and cache layer are specified for Project Titan?",
+      "expected_behavior": "Identify PostgreSQL 16 as the primary relational database and Redis 7 as the distributed caching layer.",
+      "expected_sources": ["project_titan_specs.docx"]
+    },
+    {
+      "id": "q4",
+      "category": "single_document",
+      "target_document": "project_titan_specs.docx",
+      "question": "What is the targeted p99 latency SLA for Project Titan's search endpoint?",
+      "expected_behavior": "State the p99 latency must stay under 120 milliseconds under a concurrent load of 5,000 requests per second.",
+      "expected_sources": ["project_titan_specs.docx"]
+    },
+    {
+      "id": "q5",
+      "category": "single_document",
+      "target_document": "quarterly_financials.md",
+      "question": "What was the total ARR and YoY growth rate reported in Q3 2024?",
+      "expected_behavior": "Report ARR of $18.4 million with 42% Year-over-Year growth.",
+      "expected_sources": ["quarterly_financials.md"]
+    },
+    {
+      "id": "q6",
+      "category": "single_document",
+      "target_document": "incident_runbook.txt",
+      "question": "What is the escalation protocol if a Sev-1 incident remains unresolved after 15 minutes?",
+      "expected_behavior": "State that the Incident Commander must page the VP of Engineering and initiate the executive bridge.",
+      "expected_sources": ["incident_runbook.txt"]
+    },
+    {
+      "id": "q7",
+      "category": "cross_document",
+      "target_document": "multiple",
+      "question": "How does Project Titan's infrastructure budget align with the Q3 2024 financial projections?",
+      "expected_behavior": "Synthesize Titan's $450k cloud budget from project_titan_specs.docx with the Q3 cloud infrastructure allocation outlined in quarterly_financials.md.",
+      "expected_sources": ["project_titan_specs.docx", "quarterly_financials.md"]
+    },
+    {
+      "id": "q8",
+      "category": "cross_document",
+      "target_document": "multiple",
+      "question": "Does Acme Corp's on-call compensation policy apply to engineers responding to Project Titan Sev-1 incidents?",
+      "expected_behavior": "Combine on-call stipend rules from acme_hr_policy.pdf with the Sev-1 on-call engineer requirements from incident_runbook.txt.",
+      "expected_sources": ["acme_hr_policy.pdf", "incident_runbook.txt"]
+    },
+    {
+      "id": "q9",
+      "category": "cross_document",
+      "target_document": "multiple",
+      "question": "What team lead is responsible for both Project Titan's deployment pipeline and the incident runbook sign-off?",
+      "expected_behavior": "Correlate lead architect / Devops manager identified in Project Titan specs with the incident sign-off owner.",
+      "expected_sources": ["project_titan_specs.docx", "incident_runbook.txt"]
+    },
+    {
+      "id": "q10",
+      "category": "follow_up",
+      "target_document": "acme_hr_policy.pdf",
+      "question": "What is the parental leave duration?",
+      "history": [
+        {"role": "user", "content": "What are the health benefits offered?"},
+        {"role": "assistant", "content": "Acme Corp provides medical, dental, and vision insurance starting on day one."}
+      ],
+      "expected_behavior": "Answer parental leave duration directly (16 fully paid weeks for primary caregivers).",
+      "expected_sources": ["acme_hr_policy.pdf"]
+    },
+    {
+      "id": "q11",
+      "category": "follow_up",
+      "target_document": "project_titan_specs.docx",
+      "question": "How is that data replicated?",
+      "history": [
+        {"role": "user", "content": "What database does Project Titan use?"},
+        {"role": "assistant", "content": "Project Titan uses PostgreSQL 16 as its primary database."}
+      ],
+      "expected_behavior": "Rewrite 'How is that data replicated?' to refer to PostgreSQL replication, retrieving replication specs (multi-region streaming replication with synchronous standby).",
+      "expected_sources": ["project_titan_specs.docx"]
+    },
+    {
+      "id": "q12",
+      "category": "follow_up",
+      "target_document": "quarterly_financials.md",
+      "question": "And what was the net burn rate in that same quarter?",
+      "history": [
+        {"role": "user", "content": "What was the revenue in Q3 2024?"},
+        {"role": "assistant", "content": "Total ARR in Q3 2024 was $18.4 million."}
+      ],
+      "expected_behavior": "Rewrite to refer to Q3 2024 net burn rate ($320,000 per month).",
+      "expected_sources": ["quarterly_financials.md"]
+    },
+    {
+      "id": "q13",
+      "category": "out_of_scope",
+      "target_document": "none",
+      "question": "What is the corporate tax rate in France for 2025?",
+      "expected_behavior": "Strict refusal: State clearly that the provided documents do not contain information regarding French corporate tax rates.",
+      "expected_sources": []
+    },
+    {
+      "id": "q14",
+      "category": "out_of_scope",
+      "target_document": "none",
+      "question": "How do I make a chocolate lava cake?",
+      "expected_behavior": "Strict refusal: State clearly that culinary recipes are not present in the uploaded documents.",
+      "expected_sources": []
+    },
+    {
+      "id": "q15",
+      "category": "out_of_scope",
+      "target_document": "none",
+      "question": "Who won the 2022 FIFA World Cup?",
+      "expected_behavior": "Strict refusal: State clearly that sports results are outside the content of the uploaded documents.",
+      "expected_sources": []
+    },
+    {
+      "id": "q16",
+      "category": "out_of_scope",
+      "target_document": "none",
+      "question": "What is the pricing model for Acme Corp's enterprise competitors like Salesforce?",
+      "expected_behavior": "Refusal: Competitor pricing details are not found in the uploaded documents.",
+      "expected_sources": []
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+ACME CORPORATION — ENGINEERING INCIDENT RUNBOOK
+Version: 3.2
+Owner & Sign-off Authority: Sarah Jenkins (Lead Architect & DevOps Manager)
+
+1. Incident Severity Definitions
+- Sev-1 (Critical): Customer-facing outage or data loss affecting >10% of active sessions.
+- Sev-2 (Major): Partial system degradation or high latency without total data unavailability.
+- Sev-3 (Minor): Internal tooling issue or cosmetic bug.
+
+2. On-Call Roles & Requirements
+- Primary On-Call: First responder, must acknowledge pages within 5 minutes.
+- Secondary On-Call: Escalation backup, must acknowledge within 10 minutes.
+- All on-call engineers are compensated per the Acme HR on-call stipend policy.
+
+3. Escalation Protocols for Sev-1 Incidents
+- 0–5 Minutes: Primary on-call acknowledges page and opens a dedicated incident Slack channel (#incident-active).
+- 5–15 Minutes: Incident Commander (IC) assesses blast radius and initiates rollback or circuit breaker.
+- 15 Minutes Unresolved: If a Sev-1 incident remains unresolved after 15 minutes, the Incident Commander must page the VP of Engineering and initiate the executive bridge.
+- Post-Incident: Root Cause Analysis (RCA) must be published within 48 hours.
